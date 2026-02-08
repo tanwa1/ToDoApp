@@ -1,0 +1,142 @@
+body {
+    background-color: #FFFAF1;
+}
+
+.headerContainer {
+    background: linear-gradient(90deg, rgba(237, 76, 7, 1) 43%, rgba(191, 32, 17, 1) 100%, rgba(186, 80, 35, 1) 93%);
+    height: 5rem;
+}
+
+.navContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    height: 100%;
+}
+
+button {
+    background-color: #FFFAF1;
+
+    border-radius: 5px;
+    height: 3rem;
+    width: 6rem;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+button:hover {
+    background-color: bisque;
+    cursor: pointer;
+}
+
+.content {
+    margin: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.imageContainer,
+.titleContainer,
+.descriptionContainer {
+    border-radius: 10px;
+    border: solid 2px grey;
+    width: 100%;
+    height: 20rem;
+    text-align: center;
+}
+
+.imageContainer img {
+    width: 100%;
+    height: 20rem;
+    border-radius: 10px;
+    background-image: cover;
+}
+
+.titleContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    box-shadow: inset 5px 0px 0px rgba(253, 144, 1, 0.973);
+}
+
+.descriptionContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: justify;
+    
+}
+
+.textContainer {
+    font-size: 1rem;
+    margin: 1rem;
+}
+
+.menuContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* border: solid 3px black; */
+}
+
+.menuTitleContainer {
+    font-size: 2rem;
+    font-weight: bold;
+    width: 100%;
+    height: 10rem;
+    text-align: center;
+    border-radius: 10px;
+    /* border: solid 1px grey; */
+}
+
+
+.dishContainer img {
+    width: 35rem;
+    height: 15rem;
+    border-radius: 10px;
+    background-image: cover;
+}
+
+ .dishContainer {
+    margin: 0.5rem;
+    padding: 0.5rem;
+    border: solid 2px grey;
+    border-radius: 10px;
+}
+
+.menuDishesContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    align-items: center;
+    justify-items: center;
+    border-radius: 10px;
+    width: 100rem;
+    height: 60rem;
+    /* border: solid 1px red; */
+}
+
+.dishDescription{
+    width: 35rem;
+}
+
+.aboutContainer {
+    border: solid 2px grey;
+    border-radius: 10px;
+    margin: 1rem;
+    padding: 1rem;
+    width: 65rem;
+    height: 35rem;
+    text-align: justify;
+    font-size: 1.5rem;
+    line-height: 3rem;
+}

@@ -1,18 +1,19 @@
 // webpack.common.js
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import CopyWebpackPlugin from "copy-webpack-plugin";
 
 export default {
-    entry: "./src/restoImport.js",
+    entry: "./src/index.js",
     output: {
         filename: "main.js",
-        path: path.resolve(import.meta.dirname, "dist"),
+        path: path.resolve(path.dirname(fileURLToPath(import.meta.url)), "dist"),
         clean: true,
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: "./src/restoTemplate.html",
+            template: "./src/index.html",
         }),
         
         new CopyWebpackPlugin({

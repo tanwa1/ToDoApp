@@ -1,3 +1,5 @@
+import { render } from "./ui.js";
+
 class ToDo {
     constructor(title, description, dueDate, priority, completed, id) {
         this.title = title;

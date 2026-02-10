@@ -1,6 +1,6 @@
 import { addTask, complete, noteApp, pending, upcoming, urgent } from "./assets/index.js";
 
-function render(project) {
+export function render() {
     const appDiv = document.getElementById("app");
     const nav = renderNav();
     const content = renderContent();
@@ -9,7 +9,7 @@ function render(project) {
     appDiv.appendChild(content);
 }
 
-function renderNav() {
+ function renderNav() {
     const navDiv = document.createElement("div");
 
     navDiv.classList.add("navContainer");
@@ -88,17 +88,25 @@ function renderNav() {
 
     projectsContainer.appendChild(projectsDiv);
     navDiv.appendChild(projectsContainer);
+    
+    const addedProjectsContainer = document.createElement("div");
+    addedProjectsContainer.classList.add("addedProjectsContainer");
+    addedProjectsContainer.setAttribute('id', 'addedProjectsContainer');
 
     const buttonContainer = document.createElement("div");
     buttonContainer.classList.add("buttonContainer");
 
     const addButton = document.createElement("button");
     addButton.classList.add("addButton");
+    addButton.setAttribute('id', 'addButton');
     addButton.textContent = " + Add Project";
 
-
+    
+    projectsContainer.appendChild(addedProjectsContainer);
     buttonContainer.appendChild(addButton);
     projectsContainer.appendChild(buttonContainer);
+    
+    
 
     return navDiv;
 }
@@ -133,4 +141,3 @@ function renderContent() {
     return contentDiv
 
 }
-export { render };

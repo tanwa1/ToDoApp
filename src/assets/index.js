@@ -4,3 +4,5 @@ export {default as noteApp } from "./noteApp.svg";
 export {default as pending } from "./pending.svg";
 export {default as upcoming } from "./upcoming.svg";
 export {default as urgent } from "./urgent.svg";
+export {default as project } from "./project.svg";
+export {default as deleteIcon } from "./deleteIcon.svg";

@@ -170,13 +170,13 @@ input {
     border-radius: 5px;
 }
 
-#clickDeleteImg {
+.clickDeleteImg {
     background-color: transparent;
     border: none;
     cursor: pointer;
 }
 
-#projectButton {
+.projectButton {
     border: none;
     border-radius: 5px;
     margin: 1rem;
@@ -189,7 +189,7 @@ input {
     cursor: pointer;
 }
 
-#projectButton:hover {
+.projectButton:hover {
     color: white;
 }
 

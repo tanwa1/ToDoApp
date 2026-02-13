@@ -3,6 +3,8 @@ import { project, deleteIcon } from "./assets/index.js";
 import { ToDo, Project } from "./models.js";
 
 render();
+
+
 const dialog = document.querySelector("dialog");
 const create = document.getElementById("create");
 const cancel = document.getElementById("cancel");
@@ -14,50 +16,54 @@ const projectLists = document.getElementById("addedProjectsContainer");
 
 const projects = [];
 
+export function getId() {
+    create.addEventListener('click', () => {
+        let getProjectInput = document.getElementById("projectInput").value;
 
-create.addEventListener('click', () => {
-    let getProjectInput = document.getElementById("projectInput").value;
+        const newProject = {
+            id: crypto.randomUUID(),
+            label: getProjectInput,
+            icon1: project,
+            deleteIcon: deleteIcon,
+        };
 
-    const newProject = {
-        id: crypto.randomUUID(),
-        label: getProjectInput,
-        icon1: project,
-        deleteIcon: deleteIcon,
-    };
+        const projectModel = new Project(newProject.label, newProject.id);
+        projects.push(projectModel);
 
-    const projectContainer = document.createElement("div");
-    projectContainer.setAttribute('data-id', newProject.id);
-    projectContainer.classList.add("projectDivContainer");
+        const projectContainer = document.createElement("div");
+        projectContainer.setAttribute('data-id', newProject.id);
+        projectContainer.classList.add("projectDivContainer");
 
-    const projectImage = document.createElement('img');
+        const projectImage = document.createElement('img');
 
-    const clickDeleteImg = document.createElement('button');
+        const clickDeleteImg = document.createElement('button');
 
-    clickDeleteImg.classList.add('clickDeleteImg');
+        clickDeleteImg.classList.add('clickDeleteImg');
 
-    const deleteImage = document.createElement('img');
-    deleteImage.classList.add("deleteImage");
+        const deleteImage = document.createElement('img');
+        deleteImage.classList.add("deleteImage");
 
-    const projectButton = document.createElement("button");
-    projectButton.classList.add('projectButton');
+        const projectButton = document.createElement("button");
+        projectButton.classList.add('projectButton');
 
 
-    projectImage.src = newProject.icon1;
+        projectImage.src = newProject.icon1;
 
-    projectButton.textContent = getProjectInput;
+        projectButton.textContent = getProjectInput;
 
-    deleteImage.src = newProject.deleteIcon;
+        deleteImage.src = newProject.deleteIcon;
 
-    clickDeleteImg.appendChild(deleteImage);
-    projectContainer.appendChild(projectImage);
-    projectContainer.appendChild(projectButton);
-    projectContainer.appendChild(clickDeleteImg);
-    projectLists.appendChild(projectContainer);
+        clickDeleteImg.appendChild(deleteImage);
+        projectContainer.appendChild(projectImage);
+        projectContainer.appendChild(projectButton);
+        projectContainer.appendChild(clickDeleteImg);
+        projectLists.appendChild(projectContainer);
 
-    projects.push(newProject);
-    console.log(projects);
-});
+        projects.push(newProject);
+        console.log(projects);
+    });
 
+}
 
 addButton.addEventListener('click', () => {
     dialog.showModal();

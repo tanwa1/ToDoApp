@@ -14,6 +14,10 @@ class ToDo {
            this[key] = fields[key];
        });
     }
+    
+    delete() {
+        
+    }
 }
 
 class Project {

@@ -9,7 +9,7 @@ export function render() {
     appDiv.appendChild(content);
 }
 
- function renderNav() {
+function renderNav() {
     const navDiv = document.createElement("div");
 
     navDiv.classList.add("navContainer");
@@ -51,7 +51,7 @@ export function render() {
     projectsTitle.textContent = "PROJECTS";
 
     projectsDiv.appendChild(projectsTitle);
-    
+
     const projects = [
         {
             label: "Upcoming",
@@ -72,7 +72,7 @@ export function render() {
         }
 
     ];
-    
+
     projects.forEach(project => {
         const projectDiv = document.createElement("div");
         projectDiv.classList.add("projectDivContainer")
@@ -88,7 +88,7 @@ export function render() {
 
     projectsContainer.appendChild(projectsDiv);
     navDiv.appendChild(projectsContainer);
-    
+
     const addedProjectsContainer = document.createElement("div");
     addedProjectsContainer.classList.add("addedProjectsContainer");
     addedProjectsContainer.setAttribute('id', 'addedProjectsContainer');
@@ -101,12 +101,10 @@ export function render() {
     addButton.setAttribute('id', 'addButton');
     addButton.textContent = " + Add Project";
 
-    
+
     projectsContainer.appendChild(addedProjectsContainer);
     buttonContainer.appendChild(addButton);
     projectsContainer.appendChild(buttonContainer);
-    
-    
 
     return navDiv;
 }
@@ -114,30 +112,47 @@ export function render() {
 function renderContent() {
     const contentDiv = document.createElement("div");
     contentDiv.classList.add("content");
-    
+
     const headerDiv = document.createElement("div");
-    headerDiv.classList.add("headeDiv");
+    headerDiv.classList.add("headerDiv");
     const header = document.createElement("h1");
     header.textContent = "Template Projects"
-    
+
     headerDiv.appendChild(header);
     contentDiv.appendChild(headerDiv);
+
+
+
+    const Footer = document.createElement("div");
+    Footer.classList.add("Footer");
     
-    const toDoDiv = document.createElement("div");
-    toDoDiv.classList.add("toDoDiv");
+    const todoListsDiv = document.createElement("div");
+    todoListsDiv.classList.add("todoListsDiv");
+    contentDiv.appendChild(todoListsDiv);
     
-    const input = document.createElement("input");
-    input.setAttribute('type', 'text');
-    input.setAttribute('value','Add new todo...');
-    input.setAttribute('id', 'inputField');
+    const githubAcc = 'https://github.com/tanwa1';
     
+    const githubLink = document.createElement('a');
+    githubLink.href = `${githubAcc}`;
+    githubLink.textContent = 'Tanwa';
+    
+    const createdbyDiv = document.createElement('div');
+    createdbyDiv.className = "createdAuthor";
+    createdbyDiv.textContent = 
+    "Created by: ";
+    
+
     const addToDoButton = document.createElement("button");
-    addToDoButton.classList.add("addToDoButton");
-    addToDoButton.textContent = "Add To Do"
+    addToDoButton.setAttribute('id', 'addToDoButton');
+    addToDoButton.textContent = "Add To Do";
     
-    toDoDiv.appendChild(input);
-    toDoDiv.appendChild(addToDoButton);
-    contentDiv.appendChild(toDoDiv);
+    createdbyDiv.appendChild(githubLink);
+    Footer.appendChild(addToDoButton);
+    Footer.appendChild(createdbyDiv);
+    contentDiv.appendChild(Footer);
+
+
+
     return contentDiv
 
 }

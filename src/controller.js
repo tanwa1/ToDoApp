@@ -4,12 +4,18 @@ import { ToDo, Project } from "./models.js";
 
 render();
 
+const projectDialog = document.getElementById("projectUpForm");
+const create = document.getElementById("createProject");
+const cancel = document.getElementById("cancelProject");
 
-const dialog = document.querySelector("dialog");
-const create = document.getElementById("create");
-const cancel = document.getElementById("cancel");
+const todoDialog = document.getElementById("todoUpForm");
+
+const todocreate = document.getElementById("createTodo");
+const todocancel = document.getElementById("cancelTodo");
+
 
 const addButton = document.getElementById("addButton");
+const addToDoButton = document.getElementById("addToDoButton");
 
 const projectLists = document.getElementById("addedProjectsContainer");
 
@@ -28,7 +34,6 @@ export function getId() {
         };
 
         const projectModel = new Project(newProject.label, newProject.id);
-        projects.push(projectModel);
 
         const projectContainer = document.createElement("div");
         projectContainer.setAttribute('data-id', newProject.id);
@@ -59,22 +64,20 @@ export function getId() {
         projectContainer.appendChild(clickDeleteImg);
         projectLists.appendChild(projectContainer);
 
-        projects.push(newProject);
+        projects.push(projectModel);
         console.log(projects);
+
+        projectDialog.close();
     });
 
 }
 
 addButton.addEventListener('click', () => {
-    dialog.showModal();
-});
-
-create.addEventListener('click', () => {
-    dialog.close();
+    projectDialog.showModal();
 });
 
 cancel.addEventListener('click', () => {
-    dialog.close();
+    projectDialog.close();
 });
 
 
@@ -87,4 +90,19 @@ projectLists.addEventListener('click', (event) => {
         projects.splice(bookIndex, 1);
     }
 
+});
+
+
+todocreate.addEventListener('click', (event) => {
+    event.preventDefault();
+
+    todoDialog.close();
+});
+
+addToDoButton.addEventListener('click', () => {
+    todoDialog.showModal();
+});
+
+todocancel.addEventListener('click', () => {
+    todoDialog.close();
 });

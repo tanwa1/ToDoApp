@@ -27,7 +27,8 @@
                         <div class="form-example">
                             <h1>New Item</h1>
                             <img src="./assets/todo.svg" value="todo" placeholder="todoImage">
-                            <input type="text" id="todoInput" placeholder="Todo...">
+                            <input type="text" id="todoInput" checked="checked" placeholder="Todo...">
+                            <span class="checkmark"></span>
                         </div>
 
                         <div class="form-example">
@@ -47,7 +48,7 @@
                         
                         <div class="form-example" >
                             <label for="description"> Description:
-                                <input type="text" id="description" name="description">
+                                <div contenteditable="true" id="description" name="description"></div>
                             </label>
                         </div>
 

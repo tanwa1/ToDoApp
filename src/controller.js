@@ -95,8 +95,90 @@ projectLists.addEventListener('click', (event) => {
 
 todocreate.addEventListener('click', (event) => {
     event.preventDefault();
+    
+    const todoListsDiv = document.querySelector('.todoListsDiv');
+    
+    const toDoInput = document.getElementById("todoInput").value;
+    // const dueDateInput = document.getElementById("dueDate").value;
+    // const priorityInput = document.getElementById("priority").value;
 
-    todoDialog.close();
+
+    const todoHeaderContainer = document.createElement("div");
+    todoHeaderContainer.className = 'toDoContainer';
+
+    const radioDiv = document.createElement("div");
+    radioDiv.className = 'radioDiv';
+    const radioDone = document.createElement("input");
+    radioDone.setAttribute('id', 'radioDone');
+    radioDone.setAttribute('type', 'checkbox');
+    radioDone.setAttribute('name', 'radioButton');
+    
+    const label = document.createElement('label');
+    label.setAttribute('for', 'radioDone')
+    
+    radioDiv.appendChild(radioDone);
+    radioDiv.appendChild(label);
+    
+    const buttonColContainer = document.createElement("div");
+    buttonColContainer.className = 'buttonColContainer';
+    
+    const buttonCollapsible = document.createElement("button");
+    buttonCollapsible.className = 'buttonCollapsible';
+    buttonCollapsible.textContent = toDoInput;
+    
+    buttonColContainer.appendChild(buttonCollapsible);
+    
+    const buttonDeleteTodo = document.createElement("div");
+    buttonDeleteTodo.className = 'buttonDeleteTodo';
+    
+    const deleteTodo = document.createElement('button');
+    deleteTodo.className = 'deleteTodo';
+    const deleteTodoImg = document.createElement('img');
+    deleteTodoImg.className = "deleteTodoImg";
+    deleteTodoImg.src = deleteIcon;
+
+    deleteTodo.appendChild(deleteTodoImg);
+    buttonDeleteTodo.appendChild(deleteTodo);
+    
+    todoHeaderContainer.appendChild(radioDiv);
+    todoHeaderContainer.appendChild(buttonColContainer);
+    todoHeaderContainer.appendChild(buttonDeleteTodo);
+    
+    
+    todoListsDiv.appendChild(todoHeaderContainer);
+
+    // var coll = document.getElementsByClassName("buttonCollapsible");
+    // var i;
+
+    // for (i = 0; i < coll.length; i++) {
+    //     coll[i].addEventListener("click", function () {
+    //         this.classList.toggle("active");
+    //         var content = this.nextElementSibling;
+    //         if (content.style.maxHeight) {
+    //             content.style.maxHeight = null;
+    //         } else {
+    //             content.style.maxHeight = content.scrollHeight + "px";
+    //         }
+    //     });
+    // }
+
+    // const middleRow = document.createElement("div");
+    // middleRow.className = 'middleRow';
+
+    // const dueDatePara = document.createElement("p");
+    // dueDatePara.textContent = dueDateInput;
+
+    // const priorityPara = document.createElement("p");
+    // priorityPara.textContent = priorityInput;
+
+    // middleRow.appendChild(dueDatePara)
+    // middleRow.appendChild(priorityPara)
+
+    // todoHeaderContainer.appendChild(middleRow)
+    // todoDialog.close();
+
+    return todoListsDiv;
+
 });
 
 addToDoButton.addEventListener('click', () => {

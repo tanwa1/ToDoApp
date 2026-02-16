@@ -127,7 +127,9 @@ function renderContent() {
     Footer.classList.add("Footer");
     
     const todoListsDiv = document.createElement("div");
-    todoListsDiv.classList.add("todoListsDiv");
+    todoListsDiv.className = 'todoListsDiv';
+    
+    
     contentDiv.appendChild(todoListsDiv);
     
     const githubAcc = 'https://github.com/tanwa1';

@@ -1,4 +1,4 @@
-import { addTask, complete, noteApp, pending, upcoming, urgent } from "./assets/index.js";
+import { addTask, complete, noteApp, lowPrio, medPrio, highPrio } from "./assets/index.js";
 
 export function render() {
     const appDiv = document.getElementById("app");
@@ -52,19 +52,19 @@ function renderNav() {
 
     projectsDiv.appendChild(projectsTitle);
 
-    const projects = [
+   const projects = [
         {
-            label: "Upcoming",
-            icon: upcoming,
+            label: "Low",
+            icon: lowPrio,
         },
         {
-            label: "Pending",
-            icon: pending,
+            label: "Medium",
+            icon: medPrio,
         },
 
         {
-            label: "Urgent",
-            icon: urgent,
+            label: "High",
+            icon: highPrio,
         },
         {
             label: "Complete",
@@ -78,6 +78,7 @@ function renderNav() {
         projectDiv.classList.add("projectDivContainer")
         const projectImage = document.createElement('img');
         const projectButton = document.createElement("button");
+        projectButton.setAttribute('data-label', project.label);
         projectButton.classList.add("projectLinks");
         projectImage.src = project.icon;
         projectButton.textContent = project.label;

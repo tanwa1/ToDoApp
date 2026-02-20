@@ -53,6 +53,8 @@ export function getId() {
         projectButton.setAttribute('data-id', newProject.id);
         projectButton.className = 'projectButton';
 
+        getProjectId = newProject.id;
+
         projectImage.src = newProject.icon1;
 
         projectButton.textContent = getProjectInput;
@@ -87,6 +89,7 @@ projectLists.addEventListener('click', (event) => {
 
     if (event.target.classList.contains('projectButton')) {
         getProjectId = event.target.getAttribute('data-id');
+        renderTodoForProject(getProjectId);
     }
 
 
@@ -96,6 +99,8 @@ projectLists.addEventListener('click', (event) => {
         deleteRow.remove();
         const bookIndex = projects.findIndex(projectItem => projectItem.id === idRow);
         projects.splice(bookIndex, 1);
+        const getContentsClass = document.querySelector('.todoListsDiv');
+        getContentsClass.innerHTML = '';
     }
 
 });
@@ -104,50 +109,64 @@ projectLists.addEventListener('click', (event) => {
 todocreate.addEventListener('click', (event) => {
     event.preventDefault();
 
-    const todoListsDiv = document.querySelector('.todoListsDiv');
-
     const toDoInput = document.getElementById("todoInput").value;
     const dueDateInput = document.getElementById("dueDate").value;
     const priorityInput = document.getElementById("priority").value;
+
+    console.log(priorityInput);
     const description = document.getElementById("description").innerText;
 
     const todoId = crypto.randomUUID();
 
+    const todos = new ToDo(toDoInput, description, dueDateInput, priorityInput, false, todoId);
+    const matchedProject = projects.find(project => project.id === getProjectId);
+
+    if (matchedProject) {
+        matchedProject.todos.push(todos);
+        console.log(matchedProject);
+    }
+
+    renderTodoForProject(getProjectId);
+    todoDialog.close();
+});
+
+
+function renderTodoForProject(projectID) {
+    const getContentsClass = document.querySelector('.todoListsDiv');
+    getContentsClass.innerHTML = '';
+
+    const selectedProject = projects.find(project => project.id === projectID);
+
+    for (const todo of selectedProject.todos) {
+        getContentsClass.appendChild(createTodoElement(todo))
+    }
+}
+
+function createTodoElement(todo) {
+
     const toDoContainer = document.createElement("div");
     toDoContainer.className = 'toDoContainer';
-    toDoContainer.setAttribute('data-id', todoId)
-
-    const buttonColContainer = document.createElement("div");
-    buttonColContainer.className = 'buttonColContainer';
+    toDoContainer.setAttribute('data-id', todo.id)
 
     const buttonCollapsible = document.createElement("button");
     buttonCollapsible.className = 'buttonCollapsible';
-    buttonCollapsible.textContent = toDoInput;
-
-
-    const todoName = document.createElement('div');
-    todoName.setAttribute('id', 'todoName');
-    todoName.textContent = toDoInput;
-
+    buttonCollapsible.textContent = todo.title;
 
     const middleRow = document.createElement("div");
     middleRow.className = 'middleRow';
 
     const descriptionPara = document.createElement("p");
-    descriptionPara.textContent = 'Description: ' + description;
+    descriptionPara.textContent = 'Description: ' + todo.description;
 
     const dueDatePara = document.createElement("p");
-    dueDatePara.textContent = 'Due Date: ' + dueDateInput;
+    dueDatePara.textContent = 'Due Date: ' + todo.dueDate;
 
     const priorityPara = document.createElement("p");
-    priorityPara.textContent = 'Priority: ' + priorityInput;
+    priorityPara.textContent = 'Priority: ' + todo.priority;
 
     const editButton = document.createElement('button');
     editButton.className = 'editButton';
     editButton.textContent = 'Edit Details';
-
-    buttonColContainer.appendChild(buttonCollapsible);
-    buttonColContainer.appendChild(middleRow);
 
     middleRow.appendChild(descriptionPara);
     middleRow.appendChild(dueDatePara)
@@ -159,7 +178,6 @@ todocreate.addEventListener('click', (event) => {
     const deleteTodoImg = document.createElement('img');
     deleteTodoImg.className = "deleteTodoImg";
     deleteTodoImg.src = deleteIcon;
-
     deleteTodo.appendChild(deleteTodoImg);
 
     const checkbox = document.createElement("div");
@@ -167,24 +185,7 @@ todocreate.addEventListener('click', (event) => {
     const checkBoxDone = document.createElement("input");
     checkBoxDone.setAttribute('id', 'radioDone');
     checkBoxDone.setAttribute('type', 'checkbox');
-    checkBoxDone.setAttribute('name', 'checkBoxDone');
-
-
-    const todos = new ToDo(toDoInput, description, dueDateInput, priorityInput, checkBoxDone.checked, todoId);
-
-    const matchedProject = projects.find(project => project.id === getProjectId);
-
-    if (matchedProject) {
-        matchedProject.todos.push(todos);
-    }
-
-    console.log(todos);
-
-
-    checkBoxDone.addEventListener('change', () => {
-        todos.completed = checkBoxDone.checked;
-        console.log(todos);
-    });
+    checkBoxDone.checked = todo.completed || false;
 
     const label = document.createElement('label');
     label.setAttribute('for', 'radioDone')
@@ -192,13 +193,21 @@ todocreate.addEventListener('click', (event) => {
     checkbox.appendChild(checkBoxDone);
     checkbox.appendChild(label);
 
-    toDoContainer.appendChild(buttonColContainer);
     toDoContainer.appendChild(checkbox);
+    toDoContainer.appendChild(buttonCollapsible);
     toDoContainer.appendChild(deleteTodo);
 
+    const getContentsClass = document.querySelector('.todoListsDiv');
 
-    todoListsDiv.appendChild(toDoContainer);
-    todoListsDiv.appendChild(middleRow);
+
+    getContentsClass.appendChild(toDoContainer);
+    getContentsClass.appendChild(middleRow);
+
+
+    checkBoxDone.addEventListener('change', () => {
+        todo.completed = checkBoxDone.checked;
+        console.log(todo);
+    });
 
     buttonCollapsible.addEventListener("click", function () {
         this.classList.toggle("active");
@@ -211,15 +220,50 @@ todocreate.addEventListener('click', (event) => {
 
     middleRow.style.maxHeight = null;
 
-    todoDialog.close();
 
-    return todoListsDiv;
+    return toDoContainer;
+}
 
+document.querySelector('.todoListsDiv').addEventListener('click', (event) => {
+    if (event.target.classList.contains('deleteTodoImg')) {
+        const todoDeleteDiv = event.target.closest('.toDoContainer');
+        const buttonId = todoDeleteDiv.dataset.id;
+
+        const matchedProject = projects.find(project => project.id === getProjectId);
+        console.log(matchedProject)
+        if (matchedProject) {
+            matchedProject.removeToDo({ id: buttonId });
+            todoDeleteDiv.remove();
+        }
+    }
+});
+
+document.querySelector('.projectsDiv').addEventListener('click', (event) => {
+    const projectContainer = event.target.closest('.projectLinks')
+    console.log(projectContainer)
+    const getContentsClass = document.querySelector('.todoListsDiv');
+    getContentsClass.innerHTML = '';
+    const getButtonDataId = projectContainer.getAttribute('data-label');
+
+    if (projectContainer) {
+        if (getButtonDataId) {
+            for (const project of projects) {
+                for (const todo of project.todos) {
+                    console.log(todo.priority)
+                    if (todo.priority.trim() === getButtonDataId.trim()) {
+                        console.log(getButtonDataId)
+                        getContentsClass.appendChild(createTodoElement(todo));
+                    }
+                }
+            }
+        }
+    }
 });
 
 
 addToDoButton.addEventListener('click', () => {
     todoDialog.showModal();
+
 });
 
 todocancel.addEventListener('click', () => {

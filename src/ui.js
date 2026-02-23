@@ -1,4 +1,4 @@
-import { addTask, complete, noteApp, lowPrio, medPrio, highPrio } from "./assets/index.js";
+import { addTask, complete, noteApp, upcoming, lowPrio, medPrio, highPrio } from "./assets/index.js";
 
 export function render() {
     const appDiv = document.getElementById("app");
@@ -53,6 +53,10 @@ function renderNav() {
     projectsDiv.appendChild(projectsTitle);
 
    const projects = [
+        {
+            label: "Upcoming",
+            icon: upcoming,
+        },
         {
             label: "Low",
             icon: lowPrio,

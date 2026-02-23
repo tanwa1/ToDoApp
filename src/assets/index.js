@@ -1,4 +1,5 @@
 export {default as addTask } from "./addTask.svg";
+export {default as upcoming } from "./addTask.svg";
 export {default as lowPrio } from "./lowPrio.svg";
 export {default as medPrio } from "./medPrio.svg";
 export {default as highPrio } from "./highPrio.svg";

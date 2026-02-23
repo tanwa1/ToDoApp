@@ -138,7 +138,9 @@ function renderTodoForProject(projectID) {
     const selectedProject = projects.find(project => project.id === projectID);
 
     for (const todo of selectedProject.todos) {
-        getContentsClass.appendChild(createTodoElement(todo))
+        const { toDoContainer, middleRow } = createTodoElement(todo);
+        getContentsClass.appendChild(toDoContainer);
+        getContentsClass.appendChild(middleRow);
     }
 }
 
@@ -185,7 +187,11 @@ function createTodoElement(todo) {
     const checkBoxDone = document.createElement("input");
     checkBoxDone.setAttribute('id', 'radioDone');
     checkBoxDone.setAttribute('type', 'checkbox');
-    checkBoxDone.checked = todo.completed || false;
+    checkBoxDone.onchange = function (e) {
+        if (e.target.checked) {
+
+        }
+    }
 
     const label = document.createElement('label');
     label.setAttribute('for', 'radioDone')
@@ -198,16 +204,23 @@ function createTodoElement(todo) {
     toDoContainer.appendChild(deleteTodo);
 
     const getContentsClass = document.querySelector('.todoListsDiv');
-
-
+    
     getContentsClass.appendChild(toDoContainer);
     getContentsClass.appendChild(middleRow);
 
 
-    checkBoxDone.addEventListener('change', () => {
+
+    checkBoxDone.onchange = function (e) {
         todo.completed = checkBoxDone.checked;
+        if (e.target.checked) {
+            middleRow.classList.add("complete");
+            toDoContainer.classList.add("completed")
+        } else {
+            middleRow.classList.remove("complete");
+            toDoContainer.classList.remove("completed")
+        }
         console.log(todo);
-    });
+    }
 
     buttonCollapsible.addEventListener("click", function () {
         this.classList.toggle("active");
@@ -221,18 +234,26 @@ function createTodoElement(todo) {
     middleRow.style.maxHeight = null;
 
 
-    return toDoContainer;
+    return {toDoContainer, middleRow};
 }
+
+
+
 
 document.querySelector('.todoListsDiv').addEventListener('click', (event) => {
     if (event.target.classList.contains('deleteTodoImg')) {
         const todoDeleteDiv = event.target.closest('.toDoContainer');
+        const middleRow = todoDeleteDiv.previousElementSibling;
+        console.log(middleRow);
         const buttonId = todoDeleteDiv.dataset.id;
 
         const matchedProject = projects.find(project => project.id === getProjectId);
         console.log(matchedProject)
         if (matchedProject) {
             matchedProject.removeToDo({ id: buttonId });
+            if (middleRow && middleRow.classList.contains('middleRow')) {
+                middleRow.remove();
+            }
             todoDeleteDiv.remove();
         }
     }
@@ -259,6 +280,8 @@ document.querySelector('.projectsDiv').addEventListener('click', (event) => {
         }
     }
 });
+
+
 
 
 addToDoButton.addEventListener('click', () => {

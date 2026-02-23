@@ -243,7 +243,7 @@ function createTodoElement(todo) {
 document.querySelector('.todoListsDiv').addEventListener('click', (event) => {
     if (event.target.classList.contains('deleteTodoImg')) {
         const todoDeleteDiv = event.target.closest('.toDoContainer');
-        const middleRow = todoDeleteDiv.previousElementSibling;
+        const middleRow = todoDeleteDiv.nextElementSibling;
         console.log(middleRow);
         const buttonId = todoDeleteDiv.dataset.id;
 

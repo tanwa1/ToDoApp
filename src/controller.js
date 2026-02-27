@@ -108,22 +108,37 @@ projectLists.addEventListener('click', (event) => {
 
 todocreate.addEventListener('click', (event) => {
     event.preventDefault();
-
     const toDoInput = document.getElementById("todoInput").value;
     const dueDateInput = document.getElementById("dueDate").value;
     const priorityInput = document.getElementById("priority").value;
-
-    console.log(priorityInput);
     const description = document.getElementById("description").innerText;
 
-    const todoId = crypto.randomUUID();
+    if (todocreate.classList.contains("create-mode")) {
+        const todoId = crypto.randomUUID();
+        const todos = new ToDo(toDoInput, description, dueDateInput, priorityInput, false, todoId);
+        const matchedProject = projects.find(project => project.id === getProjectId);
 
-    const todos = new ToDo(toDoInput, description, dueDateInput, priorityInput, false, todoId);
-    const matchedProject = projects.find(project => project.id === getProjectId);
+        if (matchedProject) {
+            matchedProject.addToDo(todos);
+            console.log(matchedProject);
+        }
+        todocreate.classList.remove("create-mode");
 
-    if (matchedProject) {
-        matchedProject.todos.push(todos);
-        console.log(matchedProject);
+    } else if (todocreate.classList.contains("edit-mode")) {
+        const editId = todocreate.dataset.editId;
+        const matchedProject = projects.find(project => project.id === getProjectId);
+        const todo = matchedProject.getTodoById(editId);
+
+        if (todo) {
+            todo.update({
+                title: toDoInput,
+                description: description,
+                dueDate: dueDateInput,
+                priority: priorityInput
+            })
+        }
+        todocreate.classList.remove("edit-mode");
+        delete todocreate.dataset.editId;
     }
 
     renderTodoForProject(getProjectId);
@@ -204,7 +219,7 @@ function createTodoElement(todo) {
     toDoContainer.appendChild(deleteTodo);
 
     const getContentsClass = document.querySelector('.todoListsDiv');
-    
+
     getContentsClass.appendChild(toDoContainer);
     getContentsClass.appendChild(middleRow);
 
@@ -234,10 +249,8 @@ function createTodoElement(todo) {
     middleRow.style.maxHeight = null;
 
 
-    return {toDoContainer, middleRow};
+    return { toDoContainer, middleRow };
 }
-
-
 
 
 document.querySelector('.todoListsDiv').addEventListener('click', (event) => {
@@ -281,10 +294,38 @@ document.querySelector('.projectsDiv').addEventListener('click', (event) => {
     }
 });
 
+document.querySelector('.todoListsDiv').addEventListener('click', (event) => {
+    const doNewInput = document.getElementById("todoInput");
+    const doNewDueDate = document.getElementById("dueDate");
+    const doNewPriority = document.getElementById("priority");
+    const doNewDescription = document.getElementById("description");
+
+    if (event.target.classList.contains('editButton')) {
+        const middleRow = event.target.closest('.middleRow');
+
+        const getTodoContainer = middleRow.previousElementSibling;
+
+        const getDataID = getTodoContainer.getAttribute('data-id');
+        todocreate.dataset.editId = getDataID;
+
+        const matchedProject = projects.find(project => project.id === getProjectId);
+        const todo = matchedProject.todos.find(todo => todo.id === getDataID);
+
+        doNewInput.value = todo.title;
+        doNewDueDate.value = todo.dueDate;
+        doNewPriority.value = todo.priority;
+        doNewDescription.innerText = todo.description;
+        todocreate.classList.remove("create-mode");
+        todocreate.classList.add("edit-mode");
+        todoDialog.showModal();
+    }
+});
 
 
 
 addToDoButton.addEventListener('click', () => {
+    todocreate.classList.remove("edit-mode");
+    todocreate.classList.add("create-mode");
     todoDialog.showModal();
 
 });

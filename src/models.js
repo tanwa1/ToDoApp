@@ -15,9 +15,6 @@ class ToDo {
        });
     }
     
-    delete() {
-        
-    }
 }
 
 class Project {

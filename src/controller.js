@@ -1,6 +1,7 @@
 import { render } from "./ui.js";
-import { project, deleteIcon } from "./assets/index.js";
+import { projectIcon, deleteIcon } from "./assets/index.js";
 import { ToDo, Project } from "./models.js";
+import { saveProjects, loadProjects } from "./storage.js";
 
 render();
 
@@ -20,9 +21,16 @@ const addToDoButton = document.getElementById("addToDoButton");
 const projectLists = document.getElementById("addedProjectsContainer");
 
 
-const projects = [];
+const loadedData = loadProjects();
+const projects = reviveProjects(loadedData);
+renderProjectsList()
 
 let getProjectId = null;
+
+if (projects.length > 0) {
+    getProjectId = projects[0].id;
+    renderTodoForProject(getProjectId);
+}
 
 export function getId() {
     create.addEventListener('click', () => {
@@ -31,7 +39,7 @@ export function getId() {
         const newProject = {
             id: crypto.randomUUID(),
             label: getProjectInput,
-            icon1: project,
+            icon1: projectIcon,
             deleteIcon: deleteIcon,
         };
 
@@ -69,7 +77,7 @@ export function getId() {
 
         projects.push(projectModel);
         console.log(projects);
-
+        renderProjectsList();
         projectDialog.close();
     });
 
@@ -99,8 +107,10 @@ projectLists.addEventListener('click', (event) => {
         deleteRow.remove();
         const bookIndex = projects.findIndex(projectItem => projectItem.id === idRow);
         projects.splice(bookIndex, 1);
+        saveProjects(projects);
         const getContentsClass = document.querySelector('.todoListsDiv');
         getContentsClass.innerHTML = '';
+        renderProjectsList();
     }
 
 });
@@ -123,7 +133,7 @@ todocreate.addEventListener('click', (event) => {
             console.log(matchedProject);
         }
         todocreate.classList.remove("create-mode");
-
+        saveProjects(projects);
     } else if (todocreate.classList.contains("edit-mode")) {
         const editId = todocreate.dataset.editId;
         const matchedProject = projects.find(project => project.id === getProjectId);
@@ -139,8 +149,8 @@ todocreate.addEventListener('click', (event) => {
         }
         todocreate.classList.remove("edit-mode");
         delete todocreate.dataset.editId;
+        saveProjects(projects);
     }
-
     renderTodoForProject(getProjectId);
     todoDialog.close();
 });
@@ -252,6 +262,50 @@ function createTodoElement(todo) {
     return { toDoContainer, middleRow };
 }
 
+function reviveProjects(data) {
+    return data.map(projectObj => {
+        const todos = projectObj.todos.map(todoObj =>
+            new ToDo(
+                todoObj.title,
+                todoObj.description,
+                todoObj.dueDate,
+                todoObj.priority,
+                todoObj.completed,
+                todoObj.id
+            )
+        );
+        return new Project(projectObj.name, projectObj.id, todos);
+    });
+}
+
+function renderProjectsList() {
+    projectLists.innerHTML = '';
+    for (const project of projects) {
+        const projectContainer = document.createElement("div");
+        projectContainer.classList.add("projectDivContainer", "projectLinks");
+
+        const projectImage = document.createElement('img');
+        projectImage.src = project.icon1 || projectIcon;
+
+        const projectButton = document.createElement("button");
+        projectButton.setAttribute('data-id', project.id);
+        projectButton.className = 'projectButton';
+        projectButton.textContent = project.name || project.label;
+
+        const clickDeleteImg = document.createElement('button');
+        clickDeleteImg.classList.add('clickDeleteImg');
+        const deleteImage = document.createElement('img');
+        deleteImage.classList.add("deleteImage");
+        deleteImage.src = project.deleteIcon || deleteIcon;
+        clickDeleteImg.appendChild(deleteImage);
+
+        projectContainer.appendChild(projectImage);
+        projectContainer.appendChild(projectButton);
+        projectContainer.appendChild(clickDeleteImg);
+        projectLists.appendChild(projectContainer);
+    }
+}
+
 
 document.querySelector('.todoListsDiv').addEventListener('click', (event) => {
     if (event.target.classList.contains('deleteTodoImg')) {
@@ -264,6 +318,7 @@ document.querySelector('.todoListsDiv').addEventListener('click', (event) => {
         console.log(matchedProject)
         if (matchedProject) {
             matchedProject.removeToDo({ id: buttonId });
+            saveProjects(projects);
             if (middleRow && middleRow.classList.contains('middleRow')) {
                 middleRow.remove();
             }
@@ -279,19 +334,55 @@ document.querySelector('.projectsDiv').addEventListener('click', (event) => {
     getContentsClass.innerHTML = '';
     const getButtonDataId = projectContainer.getAttribute('data-label');
 
+    const dateToday = new Date();
+    const upcomingLimit = new Date()
+    upcomingLimit.setDate(dateToday.getDate() + 20);
+
     if (projectContainer) {
-        if (getButtonDataId) {
+        if (getButtonDataId === 'Upcoming') {
+            for (const project of projects) {
+                for (const todo of project.todos) {
+                    if (!todo.dueDate) continue;
+                    const todoDueDate = new Date(todo.dueDate);
+                    if (todoDueDate >= dateToday && todoDueDate <= upcomingLimit) {
+                        const { toDoContainer, middleRow } = createTodoElement(todo);
+                        getContentsClass.appendChild(toDoContainer);
+                        getContentsClass.appendChild(middleRow);
+                    }
+                }
+            }
+        }
+
+        else if (getButtonDataId === 'Complete') {
+            for (const project of projects) {
+                for (const todo of project.todos) {
+                    if (todo.completed === true) {
+                    console.log(todo.completed)
+                        const { toDoContainer, middleRow } = createTodoElement(todo);
+                        getContentsClass.appendChild(toDoContainer);
+                        getContentsClass.appendChild(middleRow);
+                    }
+                }
+            }
+        }
+
+        else if (getButtonDataId) {
             for (const project of projects) {
                 for (const todo of project.todos) {
                     console.log(todo.priority)
                     if (todo.priority.trim() === getButtonDataId.trim()) {
                         console.log(getButtonDataId)
-                        getContentsClass.appendChild(createTodoElement(todo));
+                        const { toDoContainer, middleRow } = createTodoElement(todo);
+                        getContentsClass.appendChild(toDoContainer);
+                        getContentsClass.appendChild(middleRow);
                     }
                 }
             }
         }
+
+        return;
     }
+
 });
 
 document.querySelector('.todoListsDiv').addEventListener('click', (event) => {

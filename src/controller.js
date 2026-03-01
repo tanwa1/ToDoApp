@@ -2,6 +2,7 @@ import { render } from "./ui.js";
 import { projectIcon, deleteIcon } from "./assets/index.js";
 import { ToDo, Project } from "./models.js";
 import { saveProjects, loadProjects } from "./storage.js";
+import { format, parseISO } from 'date-fns';
 
 render();
 
@@ -185,8 +186,9 @@ function createTodoElement(todo) {
     const descriptionPara = document.createElement("p");
     descriptionPara.textContent = 'Description: ' + todo.description;
 
+    let formattedDate = todo.dueDate ? format(parseISO(todo.dueDate), 'MMM d, yyyy') : '';
     const dueDatePara = document.createElement("p");
-    dueDatePara.textContent = 'Due Date: ' + todo.dueDate;
+    dueDatePara.textContent = 'Due Date: ' + formattedDate;
 
     const priorityPara = document.createElement("p");
     priorityPara.textContent = 'Priority: ' + todo.priority;
@@ -234,16 +236,21 @@ function createTodoElement(todo) {
     getContentsClass.appendChild(middleRow);
 
 
-
+    //CHECKBOXES
     checkBoxDone.onchange = function (e) {
         todo.completed = checkBoxDone.checked;
         if (e.target.checked) {
             middleRow.classList.add("complete");
             toDoContainer.classList.add("completed")
+            setTimeout(() => {
+                toDoContainer.remove();
+                middleRow.remove()
+            }, 1000)
         } else {
             middleRow.classList.remove("complete");
             toDoContainer.classList.remove("completed")
         }
+        saveProjects(projects);
         console.log(todo);
     }
 
@@ -333,7 +340,7 @@ document.querySelector('.projectsDiv').addEventListener('click', (event) => {
     const getContentsClass = document.querySelector('.todoListsDiv');
     getContentsClass.innerHTML = '';
     const getButtonDataId = projectContainer.getAttribute('data-label');
-
+    const getheaderProject = document.getElementById('headerProject');
     const dateToday = new Date();
     const upcomingLimit = new Date()
     upcomingLimit.setDate(dateToday.getDate() + 20);
@@ -342,9 +349,10 @@ document.querySelector('.projectsDiv').addEventListener('click', (event) => {
         if (getButtonDataId === 'Upcoming') {
             for (const project of projects) {
                 for (const todo of project.todos) {
+                    getheaderProject.textContent = todo.title;
                     if (!todo.dueDate) continue;
                     const todoDueDate = new Date(todo.dueDate);
-                    if (todoDueDate >= dateToday && todoDueDate <= upcomingLimit) {
+                    if (todoDueDate >= dateToday && todoDueDate <= upcomingLimit && todo.completed === false) {
                         const { toDoContainer, middleRow } = createTodoElement(todo);
                         getContentsClass.appendChild(toDoContainer);
                         getContentsClass.appendChild(middleRow);
@@ -356,8 +364,9 @@ document.querySelector('.projectsDiv').addEventListener('click', (event) => {
         else if (getButtonDataId === 'Complete') {
             for (const project of projects) {
                 for (const todo of project.todos) {
+                    getheaderProject.textContent = todo.title;
                     if (todo.completed === true) {
-                    console.log(todo.completed)
+                        console.log(todo.completed)
                         const { toDoContainer, middleRow } = createTodoElement(todo);
                         getContentsClass.appendChild(toDoContainer);
                         getContentsClass.appendChild(middleRow);
@@ -369,8 +378,9 @@ document.querySelector('.projectsDiv').addEventListener('click', (event) => {
         else if (getButtonDataId) {
             for (const project of projects) {
                 for (const todo of project.todos) {
+                    getheaderProject.textContent = todo.title;
                     console.log(todo.priority)
-                    if (todo.priority.trim() === getButtonDataId.trim()) {
+                    if (todo.priority.trim() === getButtonDataId.trim() && todo.completed === false) {
                         console.log(getButtonDataId)
                         const { toDoContainer, middleRow } = createTodoElement(todo);
                         getContentsClass.appendChild(toDoContainer);

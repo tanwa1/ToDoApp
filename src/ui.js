@@ -121,7 +121,8 @@ function renderContent() {
     const headerDiv = document.createElement("div");
     headerDiv.classList.add("headerDiv");
     const header = document.createElement("h1");
-    header.textContent = "Template Projects"
+    header.setAttribute('id', 'headerProject');
+    header.textContent = "Template Projects";
 
     headerDiv.appendChild(header);
     contentDiv.appendChild(headerDiv);

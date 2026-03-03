@@ -1,13 +1,66 @@
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
 }
 
-#app {
+#wrapper {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    background-color: aliceblue;
+    height: 100vh;
+    text-align: center;
+    gap: 1px;
+}
+
+#navContainer {
+    grid-row-start: 1;
+    grid-row-end: 6;
+    grid-column-start: 1;
+    grid-column-end: 1;
+    background-color: rgb(61, 82, 165);
+}
+
+#header {
+    grid-row-start: 1;
+    grid-row-end: 1;
+    grid-column-start: 2;
+    grid-column-end: 5;
+
+    border: solid 1px black;
+    align-content: center;
+    text-align: center;
+    color: black;
+}
+
+
+.mainContent {
+    grid-row-start: 2;
+    grid-row-end: 6;
+    grid-column-start: 2;
+    grid-column-end: 5;
+    border: solid 1px black;
+
+}
+
+#footer {
+    grid-row-start: 6;
+    grid-row-end: 6;
+    grid-column-start: 2;
+    grid-column-end: 5;
+    border: solid 1px black;
+
     display: flex;
+    align-items: center;
+    justify-content: space-between;
     flex-direction: row;
-    min-height: 100vh;
+    flex: 1;
+    flex-shrink: 0;
+    padding: 0.5rem;
+    color: black;
+    height: 10rem;
 }
 
 h2 {
@@ -17,15 +70,20 @@ h2 {
 }
 
 .headerTextContainer {
+    grid-row-start: 1;
+    grid-column-start: 1;
+
+    grid-column-end: 2;
+    grid-row-end: 2;
+
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     justify-content: center;
+
     background-color: rgb(38, 45, 73);
     color: white;
-    height: 8rem;
     gap: 0.35rem;
-    padding: 0 1rem;
 }
 
 .headerRow {
@@ -50,14 +108,18 @@ img {
     height: 2rem;
 }
 
-.navContainer{
-  min-height: 100vh;
+.navContainer {
+    min-height: 100vh;
 }
 
 
 .projectsContainer {
-    background-color: rgb(61, 82, 165);
-      min-height: 100vh;
+    grid-row-start: 2;
+    grid-row-end: 3;
+    grid-column-start: 1;
+    grid-column-end: 1;
+
+    height: 20rem;
 }
 
 .projectDivContainer {
@@ -89,6 +151,12 @@ img {
 
 
 .buttonContainer {
+    grid-row-start: 6;
+    grid-row-end: 8;
+    grid-column-start: 1;
+    grid-column-end: -4;
+    
+    background-color: rgb(61, 82, 165);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -99,7 +167,7 @@ img {
     border-radius: 5px;
     height: 2.5rem;
     padding: 0.5rem;
-  margin: 0.3rem;
+    margin: 0.3rem;
     width: 10rem;
     font-weight: bold;
     font-size: 1rem;
@@ -126,8 +194,17 @@ img {
 }
 
 .addedProjectsContainer {
+    grid-row-start: 3;
+    grid-row-end: 6;
+    grid-column-start: 1;
+    grid-column-end: 2;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-content: start;
     padding: 1rem;
-    height: 25rem;
+    height: 20rem;
     overflow: scroll;
 }
 
@@ -135,37 +212,16 @@ img {
 .content {
     background-color: rgb(238, 234, 234);
     display: flex;
-      flex: 1 0 auto;
+    flex: 1 0 auto;
     flex-direction: column;
     color: white;
     width: 100%;
 }
 
-.headerDiv {
-    align-content: center;
-    text-align: center;
-    color: black;
-    border-bottom: solid 0.5px black;
-    margin: 0;
-    height: 8rem;
-}
 
 h1 {
     margin: 0;
     line-height: 1;
-}
-
-.Footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-direction: row;
-    flex: 1;
-      flex-shrink: 0;
-    padding: 0.5rem;
-    color: black;
-    height: 10rem;
-    margin-top: 1rem;
 }
 
 input {
@@ -250,12 +306,6 @@ label {
     padding-right: 10px;
 }
 
-.todoListsDiv {
-    flex-direction: column;
-    height: 41rem;
-    width: 100%;
-}
-
 #dueDate {
     border-radius: 0.4rem;
     border: 2px solid black;
@@ -278,7 +328,7 @@ label {
     display: grid;
     align-items: center;
     justify-items: center;
-    justify-content:center;
+    justify-content: center;
     grid-template-columns: auto 1fr auto;
     grid-template-rows: auto;
     width: 100%;
@@ -394,15 +444,18 @@ label {
     color: white;
     border-radius: 5px;
 }
+
 .toDoContainer.completed {
     color: black;
     background-color: #74fc92;
 }
+
 .toDoContainer.completed .buttonCollapsible {
     color: black;
     background-color: #74fc92;
     text-decoration: line-through;
 }
+
 .middleRow.complete {
     color: black;
     background-color: #74fc92;

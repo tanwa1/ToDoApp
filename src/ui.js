@@ -1,21 +1,27 @@
 import { addTask, complete, noteApp, upcoming, lowPrio, medPrio, highPrio } from "./assets/index.js";
 
 export function render() {
-    const appDiv = document.getElementById("app");
-    const nav = renderNav();
-    const content = renderContent();
+    const appDiv = document.getElementById("wrapper");
+    const { navDiv, headerTextContainer, projectsContainer, addedProjectsContainer, buttonContainer } = renderNav();
+    const { header, mainContent, footer } = renderContent();
 
-    appDiv.appendChild(nav);
-    appDiv.appendChild(content);
+    appDiv.appendChild(navDiv);
+    appDiv.appendChild(headerTextContainer);
+    appDiv.appendChild(projectsContainer);
+    appDiv.appendChild(addedProjectsContainer);
+    appDiv.appendChild(buttonContainer);
+    appDiv.appendChild(header);
+    appDiv.appendChild(mainContent);
+    appDiv.appendChild(footer);
 }
 
 function renderNav() {
     const navDiv = document.createElement("div");
 
-    navDiv.classList.add("navContainer");
+    navDiv.setAttribute('id', 'navContainer');
 
-    const header = document.createElement("div");
-    header.classList.add("headerTextContainer");
+    const headerTextContainer = document.createElement("div");
+    headerTextContainer.className = 'headerTextContainer';
 
     const headerRow = document.createElement("div");
     headerRow.classList.add("headerRow");
@@ -35,13 +41,12 @@ function renderNav() {
     imageContainer.appendChild(noteAppImage);
     headerRow.appendChild(imageContainer);
     headerRow.appendChild(headerText);
-    header.appendChild(headerRow);
-    header.appendChild(headerSubtitle);
-    navDiv.appendChild(header);
+    headerTextContainer.appendChild(headerRow);
+    headerTextContainer.appendChild(headerSubtitle);
 
 
     const projectsContainer = document.createElement("div");
-    projectsContainer.classList.add("projectsContainer");
+    projectsContainer.className = 'projectsContainer';
 
     const projectsDiv = document.createElement("div");
     projectsDiv.classList.add("projectsDiv");
@@ -52,7 +57,7 @@ function renderNav() {
 
     projectsDiv.appendChild(projectsTitle);
 
-   const projects = [
+    const projects = [
         {
             label: "Upcoming",
             icon: upcoming,
@@ -92,7 +97,7 @@ function renderNav() {
     });
 
     projectsContainer.appendChild(projectsDiv);
-    navDiv.appendChild(projectsContainer);
+
 
     const addedProjectsContainer = document.createElement("div");
     addedProjectsContainer.classList.add("addedProjectsContainer");
@@ -106,61 +111,48 @@ function renderNav() {
     addButton.setAttribute('id', 'addButton');
     addButton.textContent = " + Add Project";
 
-
-    projectsContainer.appendChild(addedProjectsContainer);
     buttonContainer.appendChild(addButton);
-    projectsContainer.appendChild(buttonContainer);
 
-    return navDiv;
+return { navDiv, headerTextContainer, projectsContainer, addedProjectsContainer, buttonContainer };
+
 }
 
 function renderContent() {
-    const contentDiv = document.createElement("div");
-    contentDiv.classList.add("content");
+    const header = document.createElement("div");
+    header.setAttribute('id', 'header');
 
-    const headerDiv = document.createElement("div");
-    headerDiv.classList.add("headerDiv");
-    const header = document.createElement("h1");
-    header.setAttribute('id', 'headerProject');
-    header.textContent = "Template Projects";
+    const headerTitle = document.createElement("h1");
+    headerTitle.setAttribute('id', 'headerProject');
+    headerTitle.textContent = "Template Projects";
 
-    headerDiv.appendChild(header);
-    contentDiv.appendChild(headerDiv);
+    header.appendChild(headerTitle);
+
+    const mainContent = document.createElement("div");
+    mainContent.className = 'mainContent';
 
 
+    const footer = document.createElement("div");
+    footer.setAttribute('id', 'footer');
 
-    const Footer = document.createElement("div");
-    Footer.classList.add("Footer");
-    
-    const todoListsDiv = document.createElement("div");
-    todoListsDiv.className = 'todoListsDiv';
-    
-    
-    contentDiv.appendChild(todoListsDiv);
-    
     const githubAcc = 'https://github.com/tanwa1';
-    
+
     const githubLink = document.createElement('a');
     githubLink.href = `${githubAcc}`;
     githubLink.textContent = 'Tanwa';
-    
+
     const createdbyDiv = document.createElement('div');
     createdbyDiv.className = "createdAuthor";
-    createdbyDiv.textContent = 
-    "Created by: ";
-    
+    createdbyDiv.textContent =
+        "Created by: ";
+
 
     const addToDoButton = document.createElement("button");
     addToDoButton.setAttribute('id', 'addToDoButton');
     addToDoButton.textContent = "Add To Do";
-    
+
     createdbyDiv.appendChild(githubLink);
-    Footer.appendChild(addToDoButton);
-    Footer.appendChild(createdbyDiv);
-    contentDiv.appendChild(Footer);
+    footer.appendChild(addToDoButton);
+    footer.appendChild(createdbyDiv);
 
-
-
-    return contentDiv
-
+    return { header, mainContent, footer };
 }

@@ -109,7 +109,7 @@ projectLists.addEventListener('click', (event) => {
         const bookIndex = projects.findIndex(projectItem => projectItem.id === idRow);
         projects.splice(bookIndex, 1);
         saveProjects(projects);
-        const getContentsClass = document.querySelector('.todoListsDiv');
+        const getContentsClass = document.querySelector('.mainContent');
         getContentsClass.innerHTML = '';
         renderProjectsList();
     }
@@ -158,7 +158,7 @@ todocreate.addEventListener('click', (event) => {
 
 
 function renderTodoForProject(projectID) {
-    const getContentsClass = document.querySelector('.todoListsDiv');
+    const getContentsClass = document.querySelector('.mainContent');
     getContentsClass.innerHTML = '';
 
     const selectedProject = projects.find(project => project.id === projectID);
@@ -230,7 +230,7 @@ function createTodoElement(todo) {
     toDoContainer.appendChild(buttonCollapsible);
     toDoContainer.appendChild(deleteTodo);
 
-    const getContentsClass = document.querySelector('.todoListsDiv');
+    const getContentsClass = document.querySelector('.mainContent');
 
     getContentsClass.appendChild(toDoContainer);
     getContentsClass.appendChild(middleRow);
@@ -314,7 +314,7 @@ function renderProjectsList() {
 }
 
 
-document.querySelector('.todoListsDiv').addEventListener('click', (event) => {
+document.querySelector('.mainContent').addEventListener('click', (event) => {
     if (event.target.classList.contains('deleteTodoImg')) {
         const todoDeleteDiv = event.target.closest('.toDoContainer');
         const middleRow = todoDeleteDiv.nextElementSibling;
@@ -337,7 +337,7 @@ document.querySelector('.todoListsDiv').addEventListener('click', (event) => {
 document.querySelector('.projectsDiv').addEventListener('click', (event) => {
     const projectContainer = event.target.closest('.projectLinks')
     console.log(projectContainer)
-    const getContentsClass = document.querySelector('.todoListsDiv');
+    const getContentsClass = document.querySelector('.mainContent');
     getContentsClass.innerHTML = '';
     const getButtonDataId = projectContainer.getAttribute('data-label');
     const getheaderProject = document.getElementById('headerProject');
@@ -380,7 +380,7 @@ document.querySelector('.projectsDiv').addEventListener('click', (event) => {
                 for (const todo of project.todos) {
                     getheaderProject.textContent = todo.title;
                     console.log(todo.priority)
-                    if (todo.priority.trim() === getButtonDataId.trim() && todo.completed === false) {
+                    if (todo.priority === getButtonDataId && todo.completed === false) {
                         console.log(getButtonDataId)
                         const { toDoContainer, middleRow } = createTodoElement(todo);
                         getContentsClass.appendChild(toDoContainer);
@@ -395,7 +395,7 @@ document.querySelector('.projectsDiv').addEventListener('click', (event) => {
 
 });
 
-document.querySelector('.todoListsDiv').addEventListener('click', (event) => {
+document.querySelector('.mainContent').addEventListener('click', (event) => {
     const doNewInput = document.getElementById("todoInput");
     const doNewDueDate = document.getElementById("dueDate");
     const doNewPriority = document.getElementById("priority");

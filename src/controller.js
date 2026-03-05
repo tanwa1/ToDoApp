@@ -4,6 +4,7 @@ import { ToDo, Project } from "./models.js";
 import { saveProjects, loadProjects } from "./storage.js";
 import { format, parseISO } from 'date-fns';
 
+
 render();
 
 const projectDialog = document.getElementById("projectUpForm");
@@ -24,6 +25,18 @@ const projectLists = document.getElementById("addedProjectsContainer");
 
 const loadedData = loadProjects();
 const projects = reviveProjects(loadedData);
+
+if (projects.length === 0) {
+
+    const exampleId = crypto.randomUUID();
+    
+    const exampleProject = new Project('Inbox', exampleId);
+    
+    projects.push(exampleProject)
+    saveProjects(projects);
+    
+}
+
 renderProjectsList()
 
 let getProjectId = null;
@@ -36,6 +49,11 @@ if (projects.length > 0) {
 export function getId() {
     create.addEventListener('click', () => {
         let getProjectInput = document.getElementById("projectInput").value;
+
+        if (!getProjectInput) {
+            alert("Please name your project");
+            return;
+        }
 
         const newProject = {
             id: crypto.randomUUID(),
@@ -78,6 +96,7 @@ export function getId() {
 
         projects.push(projectModel);
         console.log(projects);
+        saveProjects(projects);
         renderProjectsList();
         projectDialog.close();
     });
@@ -99,6 +118,10 @@ projectLists.addEventListener('click', (event) => {
     if (event.target.classList.contains('projectButton')) {
         getProjectId = event.target.getAttribute('data-id');
         renderTodoForProject(getProjectId);
+        
+        const getheaderProject = document.getElementById('headerProject');
+        getheaderProject.textContent = event.target.textContent;
+
     }
 
 
@@ -123,6 +146,10 @@ todocreate.addEventListener('click', (event) => {
     const dueDateInput = document.getElementById("dueDate").value;
     const priorityInput = document.getElementById("priority").value;
     const description = document.getElementById("description").innerText;
+
+    if(!validateForm()){
+        return;
+    }
 
     if (todocreate.classList.contains("create-mode")) {
         const todoId = crypto.randomUUID();
@@ -156,6 +183,26 @@ todocreate.addEventListener('click', (event) => {
     todoDialog.close();
 });
 
+function validateForm() {
+    const inputValidate = Array.from(document.querySelectorAll('input, select, textarea'));
+
+    for (const input of inputValidate) {
+        if (!input.value) {
+            alert("Fill out require inputs")
+            return false;
+        }
+    }
+
+    const description = document.getElementById('description');
+
+    if (!description.innerText.trim()) {
+        alert("Fill out require inputs")
+        return false;
+    }
+
+    return true;
+}
+
 
 function renderTodoForProject(projectID) {
     const getContentsClass = document.querySelector('.mainContent');
@@ -163,8 +210,14 @@ function renderTodoForProject(projectID) {
 
     const selectedProject = projects.find(project => project.id === projectID);
 
+    if (!selectedProject) {
+        alert("Please enter a project first!");
+        return;
+    }
+
     for (const todo of selectedProject.todos) {
         const { toDoContainer, middleRow } = createTodoElement(todo);
+        toDoContainer.classList.add(`priority-${todo.priority.toLowerCase()}`);
         getContentsClass.appendChild(toDoContainer);
         getContentsClass.appendChild(middleRow);
     }
@@ -336,6 +389,10 @@ document.querySelector('.mainContent').addEventListener('click', (event) => {
 
 document.querySelector('.projectsDiv').addEventListener('click', (event) => {
     const projectContainer = event.target.closest('.projectLinks')
+    if (!projectContainer) {
+        return;
+    }
+
     console.log(projectContainer)
     const getContentsClass = document.querySelector('.mainContent');
     getContentsClass.innerHTML = '';
@@ -344,12 +401,13 @@ document.querySelector('.projectsDiv').addEventListener('click', (event) => {
     const dateToday = new Date();
     const upcomingLimit = new Date()
     upcomingLimit.setDate(dateToday.getDate() + 20);
-
+    
+    getheaderProject.textContent = getButtonDataId;
+    
     if (projectContainer) {
         if (getButtonDataId === 'Upcoming') {
             for (const project of projects) {
                 for (const todo of project.todos) {
-                    getheaderProject.textContent = todo.title;
                     if (!todo.dueDate) continue;
                     const todoDueDate = new Date(todo.dueDate);
                     if (todoDueDate >= dateToday && todoDueDate <= upcomingLimit && todo.completed === false) {
@@ -364,7 +422,6 @@ document.querySelector('.projectsDiv').addEventListener('click', (event) => {
         else if (getButtonDataId === 'Complete') {
             for (const project of projects) {
                 for (const todo of project.todos) {
-                    getheaderProject.textContent = todo.title;
                     if (todo.completed === true) {
                         console.log(todo.completed)
                         const { toDoContainer, middleRow } = createTodoElement(todo);
@@ -378,7 +435,6 @@ document.querySelector('.projectsDiv').addEventListener('click', (event) => {
         else if (getButtonDataId) {
             for (const project of projects) {
                 for (const todo of project.todos) {
-                    getheaderProject.textContent = todo.title;
                     console.log(todo.priority)
                     if (todo.priority === getButtonDataId && todo.completed === false) {
                         console.log(getButtonDataId)
@@ -391,6 +447,9 @@ document.querySelector('.projectsDiv').addEventListener('click', (event) => {
         }
 
         return;
+    }
+    else {
+
     }
 
 });

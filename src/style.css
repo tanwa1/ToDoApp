@@ -11,7 +11,6 @@ body {
     grid-template-rows: repeat(4, 1fr);
     background-color: aliceblue;
     height: 100vh;
-    text-align: center;
     gap: 1px;
 }
 
@@ -42,7 +41,10 @@ body {
     grid-column-start: 2;
     grid-column-end: 5;
     border: solid 1px black;
-
+    display: grid;
+    justify-items: center;
+    align-content: start;
+    overflow: scroll;
 }
 
 #footer {
@@ -78,7 +80,7 @@ h2 {
 
     display: flex;
     flex-direction: column;
-    align-items: center;
+    padding: 0.5rem;
     justify-content: center;
 
     background-color: rgb(38, 45, 73);
@@ -155,7 +157,7 @@ img {
     grid-row-end: 8;
     grid-column-start: 1;
     grid-column-end: -4;
-    
+
     background-color: rgb(61, 82, 165);
     display: flex;
     justify-content: center;
@@ -199,9 +201,9 @@ img {
     grid-column-start: 1;
     grid-column-end: 2;
 
-    display: flex;
+    display: grid;
     flex-direction: column;
-    justify-content: start;
+    justify-items: center;
     align-content: start;
     padding: 1rem;
     height: 20rem;
@@ -331,8 +333,9 @@ label {
     justify-content: center;
     grid-template-columns: auto 1fr auto;
     grid-template-rows: auto;
-    width: 100%;
+    width: 90%;
     padding: 5px;
+    margin: 5px;
     border-radius: 2px;
     background-color: #777;
     margin-bottom: 2px;
@@ -353,7 +356,27 @@ label {
     padding: 0.5rem;
     border: none;
     outline: none;
+
     border-radius: 2px;
+}
+
+.active,
+.buttonCollapsible:hover {
+    background-color: #555;
+}
+
+.buttonCollapsible::after {
+    content: '\2B9F';
+    color: white;
+    font-weight: bold;
+    float: right;
+    margin-left: 5px;
+    font-size: 1rem;
+}
+
+.active::after {
+    content: "\2B9D";
+    font-size: 1rem;
 }
 
 .radioDiv input[type="checkbox"] {
@@ -393,19 +416,18 @@ label {
     opacity: 1;
 }
 
-.active,
-.collapsible:hover {
-    background-color: #555;
-}
 
 .middleRow {
-    padding: 0 18px;
+    padding: 0 9px;
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.2s ease-out;
     background-color: rgb(177, 176, 176);
     color: white;
+    width:90%;
     margin-bottom: 5px;
+    border-radius: 5px;
+    overflow: scroll;
 }
 
 .buttonColContainer {
@@ -460,4 +482,14 @@ label {
     color: black;
     background-color: #74fc92;
     text-decoration: line-through;
+}
+
+.priority-low {
+  border-left: 6px solid #4caf50;
+}
+.priority-medium {
+  border-left: 6px solid #ff9800; 
+}
+.priority-high {
+  border-left: 6px solid #f44336; 
 }

@@ -1,4 +1,7 @@
 import { addTask, complete, noteApp, upcoming, lowPrio, medPrio, highPrio } from "./assets/index.js";
+import { projectIcon, deleteIcon } from "./assets/index.js";
+import { saveProjects } from "./storage.js";
+import { format, parseISO } from 'date-fns';
 
 export function render() {
     const appDiv = document.getElementById("wrapper");
@@ -155,4 +158,150 @@ function renderContent() {
     footer.appendChild(createdbyDiv);
 
     return { header, mainContent, footer };
+}
+
+export function createTodoElement(todo, projects) {
+
+    const toDoContainer = document.createElement("div");
+    toDoContainer.className = 'toDoContainer';
+    toDoContainer.setAttribute('data-id', todo.id)
+
+    const buttonCollapsible = document.createElement("button");
+    buttonCollapsible.className = 'buttonCollapsible';
+    buttonCollapsible.textContent = todo.title;
+
+    const middleRow = document.createElement("div");
+    middleRow.className = 'middleRow';
+
+    const descriptionPara = document.createElement("p");
+    descriptionPara.textContent = 'Description: ' + todo.description;
+
+    let formattedDate = todo.dueDate ? format(parseISO(todo.dueDate), 'MMM d, yyyy') : '';
+    const dueDatePara = document.createElement("p");
+    dueDatePara.textContent = 'Due Date: ' + formattedDate;
+
+    const priorityPara = document.createElement("p");
+    priorityPara.textContent = 'Priority: ' + todo.priority;
+
+    const editButton = document.createElement('button');
+    editButton.className = 'editButton';
+    editButton.textContent = 'Edit Details';
+
+    middleRow.appendChild(descriptionPara);
+    middleRow.appendChild(dueDatePara)
+    middleRow.appendChild(priorityPara)
+    middleRow.appendChild(editButton);
+
+    const deleteTodo = document.createElement('button');
+    deleteTodo.className = 'deleteTodo';
+    const deleteTodoImg = document.createElement('img');
+    deleteTodoImg.className = "deleteTodoImg";
+    deleteTodoImg.src = deleteIcon;
+    deleteTodo.appendChild(deleteTodoImg);
+
+    const checkbox = document.createElement("div");
+    checkbox.className = 'radioDiv';
+    const checkBoxDone = document.createElement("input");
+    checkBoxDone.setAttribute('id', 'radioDone');
+    checkBoxDone.setAttribute('type', 'checkbox');
+    checkBoxDone.onchange = function (e) {
+        if (e.target.checked) {
+
+        }
+    }
+
+    const label = document.createElement('label');
+    label.setAttribute('for', 'radioDone')
+
+    checkbox.appendChild(checkBoxDone);
+    checkbox.appendChild(label);
+
+    toDoContainer.appendChild(checkbox);
+    toDoContainer.appendChild(buttonCollapsible);
+    toDoContainer.appendChild(deleteTodo);
+
+    const getContentsClass = document.querySelector('.mainContent');
+
+    getContentsClass.appendChild(toDoContainer);
+    getContentsClass.appendChild(middleRow);
+
+
+    //CHECKBOXES
+    checkBoxDone.onchange = function (e) {
+        todo.completed = checkBoxDone.checked;
+        if (e.target.checked) {
+            middleRow.classList.add("complete");
+            toDoContainer.classList.add("completed")
+            setTimeout(() => {
+                toDoContainer.remove();
+                middleRow.remove()
+            }, 1000)
+        } else {
+            middleRow.classList.remove("complete");
+            toDoContainer.classList.remove("completed")
+        }
+        saveProjects(projects);
+        console.log(todo);
+    }
+
+    buttonCollapsible.addEventListener("click", function () {
+        this.classList.toggle("active");
+        if (middleRow.style.maxHeight) {
+            middleRow.style.maxHeight = null;
+        } else {
+            middleRow.style.maxHeight = middleRow.scrollHeight + "px";
+        }
+    });
+
+    middleRow.style.maxHeight = null;
+
+
+    return { toDoContainer, middleRow };
+}
+
+export function renderTodoForProject(projectID, projects) {
+    const getContentsClass = document.querySelector('.mainContent');
+    getContentsClass.innerHTML = '';
+
+    const selectedProject = projects.find(project => project.id === projectID);
+
+    if (!selectedProject) {
+        alert("Please enter a project first!");
+        return;
+    }
+
+    for (const todo of selectedProject.todos) {
+        const { toDoContainer, middleRow } = createTodoElement(todo, projects);
+        toDoContainer.classList.add(`priority-${todo.priority.toLowerCase()}`);
+        getContentsClass.appendChild(toDoContainer);
+        getContentsClass.appendChild(middleRow);
+    }
+}
+
+export function renderProjectsList(projects, projectLists) {
+    projectLists.innerHTML = '';
+    for (const project of projects) {
+        const projectContainer = document.createElement("div");
+        projectContainer.classList.add("projectDivContainer", "projectLinks");
+
+        const projectImage = document.createElement('img');
+        projectImage.src = project.icon1 || projectIcon;
+
+        const projectButton = document.createElement("button");
+        projectButton.setAttribute('data-id', project.id);
+        projectButton.className = 'projectButton';
+        projectButton.textContent = project.name || project.label;
+
+        const clickDeleteImg = document.createElement('button');
+        clickDeleteImg.classList.add('clickDeleteImg');
+        const deleteImage = document.createElement('img');
+        deleteImage.classList.add("deleteImage");
+        deleteImage.src = project.deleteIcon || deleteIcon;
+        clickDeleteImg.appendChild(deleteImage);
+
+        projectContainer.appendChild(projectImage);
+        projectContainer.appendChild(projectButton);
+        projectContainer.appendChild(clickDeleteImg);
+        projectLists.appendChild(projectContainer);
+    }
 }

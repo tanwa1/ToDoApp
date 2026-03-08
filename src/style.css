@@ -437,6 +437,12 @@ label {
     opacity: 1;
 }
 
+.radioDiv {
+    grid-row: 1;
+    grid-column: 1;
+}
+
+
 
 .middleRow {
     padding: 0 9px;
@@ -471,11 +477,6 @@ label {
 .deleteTodo:hover {
     background-color: red;
     border-radius: 50px;
-}
-
-.radioDiv {
-    grid-row: 1;
-    grid-column: 1;
 }
 
 .editButton {

@@ -1,4 +1,3 @@
-
 body {
     height: 100%;
     margin: 0;
@@ -53,7 +52,7 @@ body {
     gap: var(--mainGap);
 }
 
-.headerRow > div {
+.headerRow>div {
     display: flex;
     align-items: center;
 }
@@ -265,12 +264,7 @@ body {
         justify-self: end;
     }
 
-    .radioDiv {
-        grid-row: 1;
-        grid-column: 1;
-    }
-
-    .radioDiv input[type=\"checkbox\"] {
+    .radioDiv input[type="checkbox"] {
         display: none;
     }
 
@@ -285,7 +279,7 @@ body {
         position: relative;
     }
 
-    .radioDiv input[type=\"checkbox\"]:checked + label {
+    .radioDiv input[type="checkbox"]:checked+label {
         background: #2196F3;
         border-color: #2196F3;
     }
@@ -303,9 +297,15 @@ body {
         transform: rotate(45deg);
     }
 
-    .radioDiv input[type=\"checkbox\"]:checked + label::after {
+    .radioDiv input[type="checkbox"]:checked+label::after {
         opacity: 1;
     }
+
+    .radioDiv {
+        grid-row: 1;
+        grid-column: 1;
+    }
+
 
     .middleRow {
         padding: 0 9px;
@@ -417,14 +417,14 @@ label {
     color: black;
 }
 
-#todoUpForm > div {
+#todoUpForm>div {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-items: center;
 }
 
-#todoUpForm > .form-example {
+#todoUpForm>.form-example {
     display: table-row;
     gap: var(--mainGap);
 }

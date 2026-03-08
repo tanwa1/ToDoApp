@@ -282,7 +282,8 @@ export function renderProjectsList(projects, projectLists) {
     projectLists.innerHTML = '';
     for (const project of projects) {
         const projectContainer = document.createElement("div");
-        projectContainer.classList.add("projectDivContainer", "projectLinks");
+        projectContainer.setAttribute('data-id', project.id);
+        projectContainer.classList.add("addedProjectContainer", "projectLinks");
 
         const projectImage = document.createElement('img');
         projectImage.src = project.icon1 || projectIcon;

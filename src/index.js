@@ -1,2 +1,4 @@
-import "./style.css";
-import "./controller.js";
+import "./style.scss";
+import { getId } from "./controller.js";
+
+getId();

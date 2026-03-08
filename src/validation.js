@@ -1,5 +1,5 @@
 export function validateForm() {
-    const inputValidate = Array.from(document.querySelectorAll('input, select, textarea'));
+    const inputValidate = Array.from(document.querySelectorAll('#todoUpForm input, #todoUpForm select, #todoUpForm textarea'));
 
     for (const input of inputValidate) {
         if (!input.value) {

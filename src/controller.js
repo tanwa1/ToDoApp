@@ -2,7 +2,6 @@ import { render, createTodoElement, renderTodoForProject, renderProjectsList} fr
 import { validateForm } from "./validation.js";
 import { getProjects, addProject, removeProject, findProject, addTodo, removeTodo, save} from "./store.js";
 
-
 render();
 
 const projectDialog = document.getElementById("projectUpForm");
@@ -69,7 +68,7 @@ projectLists.addEventListener('click', (event) => {
 
 
     if (event.target.classList.contains('deleteImage')) {
-        const deleteRow = event.target.closest(".projectDivContainer")
+        const deleteRow = event.target.closest(".addedProjectContainer");
         const idRow = deleteRow.dataset.id;
         deleteRow.remove();
         removeProject(idRow);

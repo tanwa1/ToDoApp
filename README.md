@@ -66,20 +66,6 @@ src/
 └── assets/           # Icons and images
 ```
 
-## SOLID Principles Applied
-
-- **Single Responsibility Principle (SRP)** — Each module has one job:
-  - `models.js` — Defines data structures (`ToDo`, `Project`) and nothing else.
-  - `store.js` — Owns the projects array and all CRUD operations (add/remove/find projects and todos).
-  - `storage.js` — Handles only `localStorage` persistence: saving, loading, and reviving serialized data back into class instances.
-  - `ui.js` — Responsible solely for DOM rendering (building elements, rendering project lists, rendering todos).
-  - `validation.js` — Contains only form validation logic.
-  - `controller.js` — Wires event listeners and coordinates between store and UI, but contains no data logic or DOM building.
-
-- **Open/Closed Principle (OCP)** — `ToDo.update(fields)` accepts any subset of fields to update without requiring a new method for each property. Filter views (Upcoming, Priority, Complete) can be extended with new filters without modifying existing ones.
-
-- **Dependency Inversion Principle (DIP)** — `controller.js` depends on abstractions (imported functions from `store.js` and `ui.js`) rather than directly manipulating the projects array or `localStorage`. The store functions hide the underlying data structure.
-
 ## Project Structure
 ```
 ToDoApp/

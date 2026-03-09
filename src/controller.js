@@ -230,7 +230,19 @@ document.querySelector('.mainContent').addEventListener('click', (event) => {
     }
 });
 
+document.querySelector('.btn1').addEventListener('click', function() {
+  this.classList.toggle('open');
+  
+  const navContainer = document.getElementById('navContainer');
+    
+    if(this.classList.contains('open')){
+        navContainer.classList.add('show');
+    }
+    else {
+        navContainer.classList.remove('show');
+    }
 
+});
 
 addToDoButton.addEventListener('click', () => {
     todocreate.classList.remove("edit-mode");

@@ -9,10 +9,6 @@ export function render() {
     const { header, mainContent, footer } = renderContent();
 
     appDiv.appendChild(navDiv);
-    appDiv.appendChild(headerTextContainer);
-    appDiv.appendChild(projectsContainer);
-    appDiv.appendChild(addedProjectsContainer);
-    appDiv.appendChild(buttonContainer);
     appDiv.appendChild(header);
     appDiv.appendChild(mainContent);
     appDiv.appendChild(footer);
@@ -116,7 +112,13 @@ function renderNav() {
 
     buttonContainer.appendChild(addButton);
 
-return { navDiv, headerTextContainer, projectsContainer, addedProjectsContainer, buttonContainer };
+    navDiv.appendChild(headerTextContainer);
+    navDiv.appendChild(projectsContainer);
+    navDiv.appendChild(addedProjectsContainer);
+    navDiv.appendChild(buttonContainer);
+
+
+    return { navDiv, headerTextContainer, projectsContainer, addedProjectsContainer, buttonContainer };
 
 }
 
@@ -124,11 +126,29 @@ function renderContent() {
     const header = document.createElement("div");
     header.setAttribute('id', 'header');
 
+    const headerTitleContainer = document.createElement("div");
+
     const headerTitle = document.createElement("h1");
     headerTitle.setAttribute('id', 'headerProject');
     headerTitle.textContent = "Template Projects";
 
-    header.appendChild(headerTitle);
+    headerTitleContainer.appendChild(headerTitle);
+    header.appendChild(headerTitleContainer);
+
+
+    const burgerMenuContainer = document.createElement("div");
+
+    const burgerMenu = document.createElement("div");
+    burgerMenu.className = 'menu btn1';
+    burgerMenu.setAttribute('data-menu', '10');
+
+    const iconLeftDir = document.createElement("div");
+    iconLeftDir.className = 'arrow-bar';
+    
+    burgerMenu.appendChild(iconLeftDir);
+    burgerMenuContainer.appendChild(burgerMenu);
+
+    header.appendChild(burgerMenuContainer);
 
     const mainContent = document.createElement("div");
     mainContent.className = 'mainContent';
@@ -305,4 +325,11 @@ export function renderProjectsList(projects, projectLists) {
         projectContainer.appendChild(clickDeleteImg);
         projectLists.appendChild(projectContainer);
     }
+}
+
+const menus = document.getElementsByClassName('menu');
+for (let menu of menus) {
+    menu.addEventListener('click', function () {
+        this.classList.toggle('open');
+    });
 }

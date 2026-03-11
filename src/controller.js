@@ -86,6 +86,7 @@ todocreate.addEventListener('click', (event) => {
     const dueDateInput = document.getElementById("dueDate").value;
     const priorityInput = document.getElementById("priority").value;
     const description = document.getElementById("description").innerText;
+    const myForm = document.getElementById("myForm");
 
     if(!validateForm()){
         return;
@@ -111,6 +112,8 @@ todocreate.addEventListener('click', (event) => {
         todocreate.classList.remove("edit-mode");
         delete todocreate.dataset.editId;
     }
+    myForm.reset();
+    document.getElementById("description").innerText = '';
     save();
     renderTodoForProject(getProjectId, getProjects());
     todoDialog.close();

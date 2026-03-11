@@ -5,13 +5,11 @@ import { format, parseISO } from 'date-fns';
 
 export function render() {
     const appDiv = document.getElementById("wrapper");
-    const { navDiv, headerTextContainer, projectsContainer, addedProjectsContainer, buttonContainer } = renderNav();
-    const { header, mainContent, footer } = renderContent();
+    const { navDiv } = renderNav();
+    const { mainArea } = renderContent();
 
     appDiv.appendChild(navDiv);
-    appDiv.appendChild(header);
-    appDiv.appendChild(mainContent);
-    appDiv.appendChild(footer);
+    appDiv.appendChild(mainArea);
 }
 
 function renderNav() {
@@ -123,6 +121,10 @@ function renderNav() {
 }
 
 function renderContent() {
+
+    const mainArea = document.createElement("div");
+    mainArea.className = 'mainArea';
+    
     const header = document.createElement("div");
     header.setAttribute('id', 'header');
 
@@ -172,12 +174,16 @@ function renderContent() {
     const addToDoButton = document.createElement("button");
     addToDoButton.setAttribute('id', 'addToDoButton');
     addToDoButton.textContent = "Add To Do";
+    
+    mainArea.appendChild(header);
+    mainArea.appendChild(mainContent);
+    mainArea.appendChild(footer);
 
     createdbyDiv.appendChild(githubLink);
     footer.appendChild(addToDoButton);
     footer.appendChild(createdbyDiv);
 
-    return { header, mainContent, footer };
+    return {mainArea, header, mainContent, footer};
 }
 
 export function createTodoElement(todo, projects) {
@@ -325,11 +331,4 @@ export function renderProjectsList(projects, projectLists) {
         projectContainer.appendChild(clickDeleteImg);
         projectLists.appendChild(projectContainer);
     }
-}
-
-const menus = document.getElementsByClassName('menu');
-for (let menu of menus) {
-    menu.addEventListener('click', function () {
-        this.classList.toggle('open');
-    });
 }

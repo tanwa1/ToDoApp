@@ -3,9 +3,8 @@
         position: fixed;
         top: 0;
         left: 0;
-        width: 50vw; 
-        height: 100vh;
-        min-height: 100vh;
+        width: 13rem;
+        height: 90vh;
         opacity: 0;
         pointer-events: none;
         transition: opacity 0.5s, transform 0.4s;
@@ -18,6 +17,78 @@
         pointer-events: auto;
         transform: translateX(0);
     }
+
+    .headerTextContainer {
+        width: 12rem;
+        gap: 5px;
+    }
+
+    h2,
+    .headerSubtitle,
+    .projectLinks,
+    .projectButton,
+    .addButton,
+    .projectTitle {
+        font-size: 1rem;
+    }
+
+    img {
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+
+    .projectDivContainer {
+        gap: 0;
+    }
+
+    .projectsDiv {
+        padding: 0.4rem;
+    }
+
+    .addedProjectsContainer {
+        height: 15rem;
+        padding: 0.4rem;
+    }
+
+    .addButton {
+        margin: 0.5rem;
+        padding: 0.5rem;
+        width: 12rem;
+    }
+
+    .buttonContainer {
+        background-color: transparent;
+    }
+
+    #projectUpForm {
+        height: 15%;
+    }
+    
+    #todoUpForm {
+    border: solid black 2px;
+    padding: 1rem;
+    width: 20rem;
+    height: 25rem;
+    padding: 0 18px;
+    color: black;
+    
+    // #todoInput{
+        
+    // }
+    
+        #createTodo, #cancelTodo{
+        margin: 0.2rem;
+        padding: 0.3rem;
+        cursor: pointer;
+        background-color: rgb(53, 152, 218);
+        border: none;
+        font-weight: var(--fontWeight);
+        color: white;
+        border-radius: 5px;
+    }
+    
+    
+}
 
     #header {
         grid-column-start: 1;
@@ -93,6 +164,12 @@
 
         &:hover {
             cursor: pointer;
+        }
+    }
+
+    @media (max-width: 680px) {
+        .addedProjectsContainer {
+            height: 10rem;
         }
     }
 

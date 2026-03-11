@@ -15,19 +15,16 @@ body {
 }
 
 #wrapper {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(4, 1fr);
+    display: flex;
+    flex-direction: row;
     background-color: aliceblue;
     height: 100vh;
     gap: 1px;
 }
 
 #navContainer {
-    grid-row-start: 1;
-    grid-row-end: 6;
-    grid-column-start: 1;
-    grid-column-end: 1;
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
     background-color: rgb(61, 82, 165);
     min-height: 100vh;
 }
@@ -64,10 +61,6 @@ body {
 }
 
 .projectsContainer {
-    grid-row-start: 2;
-    grid-row-end: 3;
-    grid-column-start: 1;
-    grid-column-end: 1;
     height: 20rem;
 }
 
@@ -98,10 +91,6 @@ body {
 }
 
 .addedProjectsContainer {
-    grid-row-start: 3;
-    grid-row-end: 6;
-    grid-column-start: 1;
-    grid-column-end: 2;
     display: grid;
     flex-direction: column;
     justify-items: center;
@@ -160,10 +149,6 @@ body {
 }
 
 .buttonContainer {
-    grid-row-start: 6;
-    grid-row-end: 8;
-    grid-column-start: 1;
-    grid-column-end: -4;
     background-color: rgb(61, 82, 165);
     display: flex;
     justify-content: center;
@@ -185,7 +170,7 @@ body {
 #header {
     grid-row-start: 1;
     grid-row-end: 1;
-    grid-column-start: 2;
+    grid-column-start: 1;
     grid-column-end: 5;
     border: solid 1px black;
     align-content: center;
@@ -197,10 +182,17 @@ body {
     }
 }
 
+.mainArea {
+    display: grid;
+    grid-template-rows: repeat(9, 1fr);
+    width: 100%;
+    gap:1px
+}
+
 .mainContent {
     grid-row-start: 2;
-    grid-row-end: 6;
-    grid-column-start: 2;
+    grid-row-end: 9;
+    grid-column-start: 1;
     grid-column-end: 5;
     border: solid 1px black;
     display: grid;
@@ -342,13 +334,14 @@ body {
 }
 
 #footer {
-    grid-row-start: 6;
-    grid-row-end: 6;
-    grid-column-start: 2;
+    grid-row-start: 9;
+    grid-row-end: -1;
+    grid-column-start: 1;
     grid-column-end: 5;
     border: solid 1px black;
     display: flex;
     align-items: center;
+    align-content: end;
     justify-content: space-between;
     flex-direction: row;
     flex: 1;
@@ -406,19 +399,48 @@ label {
 #projectUpForm {
     border: solid black 2px;
     padding: 1rem;
-    width: 20%;
-    height: 15%;
+    width: 20rem;
+    height: 12%;
     align-items: center;
     gap: var(--mainGap);
+    
+    #projectInput{
+        width: 15rem;
+        margin-bottom: 1rem;
+    }
+    
+    #createProject, #cancelProject{
+        margin: 0.2rem;
+        padding: 0.3rem;
+        cursor: pointer;
+        background-color: rgb(53, 152, 218);
+        border: none;
+        font-weight: var(--fontWeight);
+        color: white;
+        border-radius: 5px;
+    }
 }
 
 #todoUpForm {
     border: solid black 2px;
     padding: 1rem;
     width: 25rem;
-    height: 20rem;
+    height: 25rem;
     padding: 0 18px;
     color: black;
+    
+        #createTodo, #cancelTodo{
+        margin: 0.2rem;
+        padding: 0.3rem;
+        cursor: pointer;
+        background-color: rgb(53, 152, 218);
+        border: none;
+        font-weight: var(--fontWeight);
+        color: white;
+        border-radius: 5px;
+    }
+    
+    
 }
 
 #todoUpForm>div {

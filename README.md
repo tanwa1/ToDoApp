@@ -76,7 +76,6 @@ ToDoApp/
 │   ├── index.html       # HTML template
 │   ├── index.js         # App entry
 │   ├── main.js          # Main module (app logic)
-│   └── restoTemplate.css # Styles (rename when ready)
 ├── package.json         # Project metadata and scripts
 ├── webpack.common.js    # Webpack common config
 ├── webpack.dev.js       # Webpack dev config

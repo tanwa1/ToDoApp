@@ -1,4 +1,4 @@
-# Todo App
+# Task Management Web App
 
 A vanilla JavaScript todo list application built as part of [The Odin Project](https://www.theodinproject.com/) curriculum.
 

@@ -2,6 +2,8 @@
 
 A vanilla JavaScript todo list application built as part of [The Odin Project](https://www.theodinproject.com/) curriculum.
 
+Live demo: https://tanwa1.github.io/ToDoApp/
+
 ## Features
 
 - **Projects** — Organize todos into separate projects. A default "Inbox" project is created automatically.
